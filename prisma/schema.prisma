@@ -1,0 +1,40 @@
+// This file defines the database schema for CheckaJob. It is currently unused
+// in the starter project but provides a starting point for persisting
+// assessments and users when you connect a Postgres database (e.g. Supabase).
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id          String       @id @default(cuid())
+  email       String?      @unique
+  createdAt   DateTime     @default(now())
+  assessments Assessment[]
+}
+
+model Assessment {
+  id          String    @id @default(cuid())
+  userId      String?
+  user        User?     @relation(fields: [userId], references: [id])
+  createdAt   DateTime  @default(now())
+  description String
+  skillLevel  String    // "novice" | "intermediate" | "advanced"
+  tags        String[]  @db.Text[]
+  decision    String    // "DIY" | "Get a Pro"
+  score       Int
+  rationale   String[]  @db.Text[]
+  steps       String[]  @db.Text[]
+  tools       String[]  @db.Text[]
+  materials   String[]  @db.Text[]
+  safety      String[]  @db.Text[]
+  postcode    String?
+  durationMin Int?
+  costLow     Int?
+  costHigh    Int?
+}
