@@ -30,6 +30,8 @@ const KB = {
     baseDifficulty: 5,
     risk: { electrical: false, plumbing: true, structural: false, workingAtHeight: false },
     steps: [
+ 
+      
       'Isolate water supply (shut‑off valve).',
       'Open tap to relieve pressure.',
       'Disassemble tap handle and bonnet.',
@@ -75,7 +77,7 @@ const KB = {
       'Always prove dead before touching conductors.',
     ],
   },
-} as const;
+;
 
 type JobKey = keyof typeof KB;
 
