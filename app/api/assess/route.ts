@@ -30,8 +30,6 @@ const KB = {
     baseDifficulty: 5,
     risk: { electrical: false, plumbing: true, structural: false, workingAtHeight: false },
     steps: [
- 
-      
       'Isolate water supply (shut‑off valve).',
       'Open tap to relieve pressure.',
       'Disassemble tap handle and bonnet.',
@@ -60,7 +58,7 @@ const KB = {
     safety: ['Ventilate the room.', 'Use a stable step if needed; don’t overreach.'],
   },
   fit_light_fixture: {
-  name: 'Fit a New Ceiling Light Fixture',
+    name: 'Fit a New Ceiling Light Fixture',
     baseDifficulty: 7,
     risk: { electrical: true, plumbing: false, structural: false, workingAtHeight: true },
     steps: [
@@ -71,15 +69,15 @@ const KB = {
       'Restore power and test.',
     ],
     tools: ['Voltage tester', 'Screwdrivers', 'Wire strippers', 'Step ladder'],
-  materials: ['Connector blocks/Wago', 'Light fixture', 'Fixings'],
+    materials: ['Connector blocks/Wago', 'Light fixture', 'Fixings'],
     safety: [
       'If unsure about wiring identification or regs, use a qualified electrician.',
-    'Always prove dead before touching conductors.',
+      'Always prove dead before touching conductors.',
     ],
   },
+};
 
-
-tpe JobKey = keyof typeof KB;
+type JobKey = keyof typeof KB;
 
 interface AssessmentInput {
   description: string;
@@ -144,12 +142,10 @@ function assessFromKB(input: AssessmentInput, jobKey: JobKey): AssessmentOutput 
     rationale.unshift('This task appears feasible for your skill level.');
   } else {
     rationale.unshift('This task may be too challenging or risky for you.');
- 
   }
   return {
     decision,
     score,
-    
     rationale,
     steps: job.steps,
     tools: job.tools,
@@ -181,12 +177,10 @@ export async function POST(request: NextRequest) {
       const chatResponse = await openai.chat.completions.create({
         model: 'gpt-4.1-mini',
         messages: [
-   
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
         ],
         stream: false,
-        
       });
       const content = chatResponse.choices?.[0]?.message?.content;
       if (content) {
